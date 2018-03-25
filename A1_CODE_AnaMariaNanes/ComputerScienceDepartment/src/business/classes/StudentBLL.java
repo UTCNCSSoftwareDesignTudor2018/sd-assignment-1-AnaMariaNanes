@@ -39,7 +39,7 @@ public class StudentBLL implements IStudentBLL {
     // find student by account
 	 public Student findByAccount(String username, String password) throws Exception {
 		
-		Student student = (Student)((StudentDao)studentDao).findByAccount(username,password);
+		Student student = studentDao.findByAccount(username,password);
 		if (student == null) {
 			throw new Exception("The student account with username = " + username + " was not found!");
 		}
@@ -60,6 +60,7 @@ public class StudentBLL implements IStudentBLL {
 	//update student
 	public void update(Student student)
 	{
+
 		studentDao.update(student);
 	}
 	

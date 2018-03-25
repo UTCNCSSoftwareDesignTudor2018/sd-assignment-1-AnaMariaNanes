@@ -24,6 +24,8 @@ public class TeacherDao implements ITeacherDao{
 	private final static String findStatementString = "SELECT * FROM teachers where teacherID = ?";
 	private final static String findAllStatementString = "SELECT * FROM teachers";
 	private final static String deleteStatementString = "DELETE FROM teachers where teacherID = ?";
+	private final static String findStatementStringAccount = "SELECT * FROM teachers where username = ? AND password = ?";
+	private final static String findStatementStringByUsername = "SELECT * FROM teachers where username = ?";
 	
 	
     // find teacher by teacherID
@@ -50,6 +52,69 @@ public class TeacherDao implements ITeacherDao{
 		} catch (SQLException e) { 
 			LOGGER.log(Level.WARNING,"TeacherDAO:findById " + e.getMessage());
 			return null;
+		} finally {
+			ConnectionFactory.close(rs);
+			ConnectionFactory.close(findStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return toReturn;
+	}
+	
+	// find teacher by username
+	public Teacher findByUsername(String username) {
+		Teacher toReturn = null;
+
+		Connection dbConnection = ConnectionFactory.getConnection();
+		PreparedStatement findStatement = null;
+		
+		ResultSet rs = null;
+		
+		try {
+			findStatement = dbConnection.prepareStatement(findStatementStringByUsername);
+			findStatement.setString(1, username);
+			rs = findStatement.executeQuery();
+			rs.next();
+
+			int teacherID = rs.getInt("teacherID");
+			String name = rs.getString("name");
+			String password = rs.getString("password");
+			
+			toReturn = new Teacher(teacherID,name,username,password);
+			
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING,"ClientDAO:findByUsername " + e.getMessage());
+		} finally {
+			ConnectionFactory.close(rs);
+			ConnectionFactory.close(findStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return toReturn;
+	}
+	
+	// find teacher by Account
+	public Teacher findByAccount(String username, String password) {
+		Teacher toReturn = null;
+
+		Connection dbConnection = ConnectionFactory.getConnection();
+		PreparedStatement findStatement = null;
+		
+		ResultSet rs = null;
+		
+		try {
+			findStatement = dbConnection.prepareStatement(findStatementStringAccount);
+			findStatement.setString(1, username);
+			findStatement.setString(2, password);
+			rs = findStatement.executeQuery();
+			rs.next();
+
+			int teacherID = rs.getInt("teacherID");
+			String name = rs.getString("name");
+
+			
+			toReturn = new Teacher();
+			
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING,"TeacherDao:findByAccount " + e.getMessage());
 		} finally {
 			ConnectionFactory.close(rs);
 			ConnectionFactory.close(findStatement);

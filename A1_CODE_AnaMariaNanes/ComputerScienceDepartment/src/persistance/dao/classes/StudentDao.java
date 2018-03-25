@@ -216,15 +216,12 @@ public class StudentDao implements IStudentDao
 	public void update(Student student)
 	{
 		Connection dbConnection = ConnectionFactory.getConnection();
-
-		PreparedStatement updateStatement = null;
-		
+		PreparedStatement updateStatement = null;	
 		int studentID = student.getStudentID();
-		
-		try {
-			
-			updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);
-			
+
+
+		try {			
+			updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);		
 			updateStatement.setString(1,student.getName());
 			updateStatement.setString(2,student.getCardID());
 			updateStatement.setString(3,student.getCnp());
@@ -232,10 +229,9 @@ public class StudentDao implements IStudentDao
 			updateStatement.setString(5,student.getGroupID());
 			updateStatement.setString(6,student.getUsername());
 			updateStatement.setString(7,student.getPassword());
-			updateStatement.setInt(8,studentID);
-			
+			updateStatement.setInt(8,studentID);		
 			updateStatement.executeUpdate();
-
+			
 		}
 		 catch(SQLException e)
 		 {
