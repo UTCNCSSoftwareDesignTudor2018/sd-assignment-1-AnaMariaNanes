@@ -9,8 +9,12 @@ public class Grade {
 	public Grade() {}
 
 	public Grade(int id, int enrollmentID, float grade) {
-		super();
 		this.id = id;
+		this.enrollmentID = enrollmentID;
+		this.grade = grade;
+	}
+	
+	public Grade(int enrollmentID, float grade) {
 		this.enrollmentID = enrollmentID;
 		this.grade = grade;
 	}

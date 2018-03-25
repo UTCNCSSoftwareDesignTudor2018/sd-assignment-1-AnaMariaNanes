@@ -8,14 +8,23 @@ public class Enrollment {
 	private int studentID;
 	private int courseID;
 	private float examGrade;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	
 	public Enrollment() {}
 
-	public Enrollment(int enrollmentID, int studentID, int courseID, float examGrade, Date startDate, Date endDate) {
-		super();
+	public Enrollment(int enrollmentID, int studentID, int courseID, float examGrade, String startDate, String endDate) {
+
 		this.enrollmentID = enrollmentID;
+		this.studentID = studentID;
+		this.courseID = courseID;
+		this.examGrade = examGrade;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
+	public Enrollment(int studentID, int courseID, float examGrade, String startDate, String endDate) {
+
 		this.studentID = studentID;
 		this.courseID = courseID;
 		this.examGrade = examGrade;
@@ -55,19 +64,19 @@ public class Enrollment {
 		this.examGrade = examGrade;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	

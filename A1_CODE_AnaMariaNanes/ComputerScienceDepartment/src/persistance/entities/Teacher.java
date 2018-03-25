@@ -10,8 +10,13 @@ public class Teacher {
 	public Teacher() {}
 
 	public Teacher(int teacherID, String name, String username, String password) {
-		super();
 		this.teacherID = teacherID;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
+	
+	public Teacher(String name, String username, String password) {
 		this.name = name;
 		this.username = username;
 		this.password = password;

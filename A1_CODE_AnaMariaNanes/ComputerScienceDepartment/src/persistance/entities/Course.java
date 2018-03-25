@@ -2,7 +2,7 @@ package persistance.entities;
 
 public class Course {
 
-		private int studentID;
+		private int courseID;
 		private String name;
 		private int teacherID;
 		private int credits;
@@ -10,21 +10,29 @@ public class Course {
 		
 		public Course() {}
 		
-		public Course(int studentID,String name,int teacherID,int credits,String room)
+		public Course(int courseID,String name,int teacherID,int credits,String room)
 		{
-			this.studentID = studentID;
+			this.courseID = courseID;
+			this.name = name;
+			this.teacherID = teacherID;
+			this.credits = credits;
+			this.room = room;
+		}
+		
+		public Course(String name,int teacherID,int credits,String room)
+		{
 			this.name = name;
 			this.teacherID = teacherID;
 			this.credits = credits;
 			this.room = room;
 		}
 
-		public int getStudentID() {
-			return studentID;
+		public int getCourseID() {
+			return courseID;
 		}
 
-		public void setStudentID(int studentID) {
-			this.studentID = studentID;
+		public void setCourseID(int courseID) {
+			this.courseID = courseID;
 		}
 
 		public String getName() {
