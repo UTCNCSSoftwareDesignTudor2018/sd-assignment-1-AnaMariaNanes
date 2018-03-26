@@ -1,5 +1,6 @@
 package business.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import business.interfaces.IGradeBLL;
@@ -38,7 +39,6 @@ public class GradeBLL implements IGradeBLL {
 	public List<Grade> findByEnrollmentId(int enrollmentID) {
 		return gradeDao.findByEnrollmentId(enrollmentID);
 	}
-
 
 	//insert grade
 	public int insert(Grade grade) {

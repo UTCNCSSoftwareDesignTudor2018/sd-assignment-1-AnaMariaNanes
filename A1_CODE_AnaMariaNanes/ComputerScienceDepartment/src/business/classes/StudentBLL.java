@@ -1,19 +1,25 @@
 package business.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import business.interfaces.IStudentBLL;
-import persistance.dao.classes.StudentDao;
-import persistance.dao.interfaces.IStudentDao;
-import persistance.entities.Student;
+import persistance.dao.classes.*;
+import persistance.dao.interfaces.*;
+import persistance.entities.*;
 
 public class StudentBLL implements IStudentBLL {
 	
 	private IStudentDao studentDao;
+	private IEnrollmentDao enrollmentDao;
+	private ICourseDao courseDao;
+	
 	
 	public StudentBLL()
 	{
 		this.studentDao = new StudentDao();
+		this.courseDao = new CourseDao();
+		this.enrollmentDao =  new EnrollmentDao();
 	}
 	
 	// find student by studentID 	
@@ -71,5 +77,17 @@ public class StudentBLL implements IStudentBLL {
 		studentDao.delete(studentID);
 	}
 
-
+	// get the courses of a student
+	public List<Course> findStudentCourses(int studentID) {
+		List<Course> allCourses = new ArrayList<Course>();
+		
+		List<Enrollment> allEnrollments = enrollmentDao.findByStudentId(studentID);
+		for(Enrollment e : allEnrollments)
+		{
+			Course course = courseDao.findById(e.getCourseID());
+			allCourses.add(course);
+		}
+		
+		return allCourses;
+	}
 }

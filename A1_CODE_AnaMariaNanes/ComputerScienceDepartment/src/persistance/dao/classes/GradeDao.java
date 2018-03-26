@@ -83,47 +83,39 @@ public class GradeDao implements IGradeDao{
 			ConnectionFactory.close(findAllStatement);
 			ConnectionFactory.close(dbConnection);
 		}
-     
 		return allGrades;
 	}
 	
-
 	// find all grades by enrollmentID
 	public List<Grade> findByEnrollmentId(int enrollmentID) {
-		Connection dbConnection = ConnectionFactory.getConnection();
-		PreparedStatement findStatement = null;
-		
-		ResultSet rs = null;
-		
 		List<Grade> allGrades = new ArrayList<Grade>();
+		Connection dbConnection = ConnectionFactory.getConnection();
+		PreparedStatement findAllStatement = null;
+        ResultSet rs = null;
 		
 		try {
-			findStatement = dbConnection.prepareStatement(findStatementStringByEnrollmentId);
-			findStatement.setLong(1, enrollmentID);
-			rs = findStatement.executeQuery();
+			findAllStatement = dbConnection.prepareStatement(findStatementStringByEnrollmentId);
+			findAllStatement.setInt(1, enrollmentID);
+			rs = findAllStatement.executeQuery();
 			
 			while(rs.next())
-			{ 
-
-			int id = rs.getInt("id");
-		    float grade = rs.getFloat("grade");
-			
-			Grade oneGrade = new Grade(id,enrollmentID,grade);
-			allGrades.add(oneGrade);
-			
-			}
-			
-		} catch (SQLException e) { 
-			LOGGER.log(Level.WARNING,"GradeDao:findByEnrollmentId " + e.getMessage());
+			{   
+				int id = rs.getInt("id");
+				float grade = rs.getFloat("grade");
+				
+				Grade oneGrade = new Grade(id,enrollmentID,grade);
+			    allGrades.add(oneGrade);
+			}		
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING,"GradeDao:findByEnrollmentId" + e.getMessage());
 		} finally {
 			ConnectionFactory.close(rs);
-			ConnectionFactory.close(findStatement);
+			ConnectionFactory.close(findAllStatement);
 			ConnectionFactory.close(dbConnection);
 		}
 		return allGrades;
 	}
-
-
+	
 	// insert grade
 	public int insert(Grade grade) {
 		Connection dbConnection = ConnectionFactory.getConnection();

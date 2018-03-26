@@ -60,4 +60,18 @@ public class EnrollmentBLL implements IEnrollmentBLL{
 		
 	}
 
+    // find enrollment by courseID and studentID
+	public Enrollment findByCourseAndStudent(int studentID, int courseID){
+		Enrollment chosenEnroll =  new Enrollment();
+		List<Enrollment> enrollOfStud = enrollmentDao.findByStudentId(studentID);
+		for(Enrollment en : enrollOfStud)
+		{
+			if(en.getCourseID() == courseID) {
+				chosenEnroll = en;
+			}
+		}
+		
+		return chosenEnroll;
+	}
+
 }

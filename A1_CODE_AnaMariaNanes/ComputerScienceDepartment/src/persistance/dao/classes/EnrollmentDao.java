@@ -140,6 +140,7 @@ public class EnrollmentDao implements IEnrollmentDao {
 		return allEnrollments;
 	}
 
+
     // find all enrollments
 	public List<Enrollment> findAll() {
 		
@@ -255,5 +256,6 @@ public class EnrollmentDao implements IEnrollmentDao {
 		  ConnectionFactory.close(dbConnection);
 	    }
 	}
+
 
 }

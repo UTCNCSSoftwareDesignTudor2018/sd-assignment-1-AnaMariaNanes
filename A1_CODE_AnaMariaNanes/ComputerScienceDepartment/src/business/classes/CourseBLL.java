@@ -26,6 +26,15 @@ public class CourseBLL implements ICourseBLL{
 		return course;
 	}
 	
+	// find course by name
+	public Course findByName(String name) throws Exception{	
+		Course course = courseDao.findByName(name);
+		if (course == null) { 
+			throw new Exception("The course with name = " + name + " was not found!");
+		}
+		return course;
+	}
+	
 	// get all the courses	
 	public List<Course> findAll()
 	{
@@ -51,8 +60,5 @@ public class CourseBLL implements ICourseBLL{
 		Course course = courseDao.findById(courseID);
 		courseDao.delete(courseID);
 	}
-
-		
-		
 
 }
