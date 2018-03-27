@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.classes.*;
 import business.interfaces.*;
+import business.validators.EnrollmentValidator;
 import persistance.entities.*;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -110,27 +111,63 @@ public class StudentNewEnrollment extends JFrame {
 				
 				Object selectedCourse = list.getSelectedValue();
 				String courseName = (String) selectedCourse;
-				try {
-					Course selCourse = courseBLL.findByName(courseName);
-					Enrollment newEnrollment = new Enrollment(studentAccount.getStudentID(),selCourse.getCourseID(),0,startDate,endDate);
-					enrollmentBLL.insert(newEnrollment);
-					
-					JOptionPane.showMessageDialog(null, 
-	                        "The enrollment was performed.", 
-	                        "Enrollment Status", 
-	                        JOptionPane.INFORMATION_MESSAGE);
-					
-					setVisible(false);
-					StudentEnrollments frame = new StudentEnrollments(studentAccount);
-					frame.setVisible(true);
-					
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				
+				if(selectedCourse != null)
+				{
+					try {
+						Course selCourse = courseBLL.findByName(courseName);
+						Enrollment newEnrollment = new Enrollment(studentAccount.getStudentID(),selCourse.getCourseID(),0,startDate,endDate);
+						EnrollmentValidator enrollmentValidator = new EnrollmentValidator();
+						String message = enrollmentValidator.validateEnrollment(newEnrollment);
+						if(message.equals("correct"))
+						{
+							enrollmentBLL.insert(newEnrollment);
+							
+							JOptionPane.showMessageDialog(null, 
+			                        "The enrollment was performed.", 
+			                        "Enrollment Status", 
+			                        JOptionPane.INFORMATION_MESSAGE);
+							
+							setVisible(false);
+							StudentEnrollments frame = new StudentEnrollments(studentAccount);
+							frame.setVisible(true);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, 
+			                        message, 
+			                        "Enrollment Status", 
+			                        JOptionPane.ERROR_MESSAGE);
+						}
+						
+						
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, 
+	                        "No course selected", 
+	                        "Make enrollment", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
+			
 			}
 		});
 		btnMakeEnrollment.setBounds(339, 189, 147, 51);
 		contentPane.add(btnMakeEnrollment);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				StudentEnrollments frame = new StudentEnrollments(studentAccount);
+				frame.setVisible(true);
+			}
+		});
+		btnBack.setBounds(470, 394, 97, 25);
+		contentPane.add(btnBack);
 		
 	
 	}

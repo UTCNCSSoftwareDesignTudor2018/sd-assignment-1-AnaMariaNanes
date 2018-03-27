@@ -8,6 +8,8 @@ import javax.xml.stream.events.StartElement;
 
 import business.classes.*;
 import business.interfaces.*;
+import business.validators.EnrollmentValidator;
+import business.validators.TeacherValidator;
 import persistance.entities.*;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -100,6 +102,40 @@ public class TeacherAccount extends JFrame {
 		textField_3.setText(teacherAccount.getPassword());
 		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int teacherID = Integer.valueOf(textField.getText());
+				String name = textField_1.getText();
+			    String username = textField_2.getText();
+			    char[] pass = textField_3.getPassword();
+			    String password = String.valueOf(pass);
+			    
+			    Teacher newTeacher = new Teacher(teacherID,name,username,password);
+			    
+			    TeacherValidator teacherValidator = new TeacherValidator();
+				String message = teacherValidator.validateUpdateTeacher(newTeacher);
+				if(message.equals("correct"))
+				{
+					teacherBLL.update(newTeacher);
+					
+					JOptionPane.showMessageDialog(null, 
+	                        "Account updated.", 
+	                        "Update Status", 
+	                        JOptionPane.INFORMATION_MESSAGE);
+					
+					setTitle("Teacher account: " + name);
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, 
+	                         message, 
+	                        "Update Status", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 		btnUpdate.setBounds(51, 166, 97, 25);
 		contentPane.add(btnUpdate);
 		
@@ -107,6 +143,14 @@ public class TeacherAccount extends JFrame {
 		btnDeleteAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = teacherAccount.getTeacherID();
+				teacherBLL.delete(id);
+				JOptionPane.showMessageDialog(null, 
+                        "The account has been deleted", 
+                        "Account deletion", 
+                        JOptionPane.INFORMATION_MESSAGE);
+				setVisible(false);
+				HomePage frame = new HomePage();
+				frame.setVisible(true);
 				
 			}
 		});
@@ -141,28 +185,49 @@ public class TeacherAccount extends JFrame {
 		JButton btnAddExamGrade = new JButton("Add exam grade");
 		btnAddExamGrade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				float newGrade = Float.valueOf(textField_5.getText());
+				
+
 				Object selectedStudent = list.getSelectedValue();
 				String studentName = (String) selectedStudent;
 				
-				Student selStudent;
-				Course selCourse;
-				try {
-					selStudent = studentBLL.findByName(studentName);
-					selCourse = courseBLL.findByTeacherID(teacherAccount.getTeacherID());
-                    Enrollment enrol = enrollmentBLL.findByCourseAndStudent(selStudent.getStudentID(), selCourse.getCourseID());
-                    enrol.setExamGrade(newGrade);
-                    enrollmentBLL.update(enrol);
-                    
-                    JOptionPane.showMessageDialog(null, 
-	                        "Exam Grade updated.", 
-	                        "Exam Grade", 
-	                        JOptionPane.INFORMATION_MESSAGE);
-                    
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if(selectedStudent == null)
+				{		
+					JOptionPane.showMessageDialog(null, 
+	                        "No student chosen", 
+	                        "Student Exam Grading", 
+	                        JOptionPane.ERROR_MESSAGE);
 				}
-				
+				else
+				{
+					try
+					{
+						float newGrade = Float.valueOf(textField_5.getText());
+						Student selStudent;
+						Course selCourse;
+						try {
+							selStudent = studentBLL.findByName(studentName);
+							selCourse = courseBLL.findByTeacherID(teacherAccount.getTeacherID());
+		                    Enrollment enrol = enrollmentBLL.findByCourseAndStudent(selStudent.getStudentID(), selCourse.getCourseID());
+		                    enrol.setExamGrade(newGrade);
+		                    enrollmentBLL.update(enrol);
+		                    
+		                    JOptionPane.showMessageDialog(null, 
+			                        "Exam Grade updated.", 
+			                        "Exam Grade", 
+			                        JOptionPane.INFORMATION_MESSAGE);
+		                    
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					catch(java.lang.NumberFormatException exp )
+					{
+						JOptionPane.showMessageDialog(null, 
+		                        "Wrong grade format", 
+		                        "Student Exam Grading", 
+		                        JOptionPane.ERROR_MESSAGE);
+					}			
+				}			
 			}
 		});
 		btnAddExamGrade.setBounds(336, 494, 144, 26);
@@ -218,6 +283,16 @@ public class TeacherAccount extends JFrame {
 				Object selectedStudent = list.getSelectedValue();
 				String studentName = (String) selectedStudent;
 				
+				if(selectedStudent == null)
+				{		
+					JOptionPane.showMessageDialog(null, 
+	                        "No student chosen", 
+	                        "Student Exam Grade", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+				
 				Student selStudent;
 				Course selCourse;
 				try {
@@ -231,7 +306,7 @@ public class TeacherAccount extends JFrame {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				
+				}
 			}
 		});
 		btnDisplayExamGrade.setBounds(458, 447, 170, 25);
@@ -242,41 +317,60 @@ public class TeacherAccount extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String startPeriod = textField_6.getText();
 				String endPeriod = textField_7.getText();
-				
-				System.out.println(startPeriod);
-				System.out.println(endPeriod);
-				
+			
 				Object selectedStudent = list.getSelectedValue();
 				String studentName = (String) selectedStudent;
 				
-				System.out.println(studentName);
+				EnrollmentValidator enrollmentValidator = new EnrollmentValidator();
 				
-				Student selStudent;
-				Course selCourse;
-				try {
-					selStudent = studentBLL.findByName(studentName);
-					selCourse = courseBLL.findByTeacherID(teacherAccount.getTeacherID());
-                    List<Enrollment> enrol = enrollmentBLL.findByStudentId(selStudent.getStudentID());
-                    System.out.println(enrol.size());
-                    List<Enrollment> finished_courses = new ArrayList<>();
-                    List<Enrollment> enrolled_courses = new ArrayList<>();
-                    for(Enrollment en : enrol)
-                    {
-                    	if(en.checkPeriod(startPeriod, endPeriod).equals("FINISHED"))
-                    			finished_courses.add(en);
-                    	if(en.checkPeriod(startPeriod, endPeriod).equals("ENROLLED"))
-                    	        enrolled_courses.add(en);
-                    }
-                    
-                    setVisible(false);
-                    StudentReport frame = new StudentReport(selStudent,teacherAccount,finished_courses,enrolled_courses);
-					frame.setVisible(true);
-                   
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if(selectedStudent == null)
+				{		
+					JOptionPane.showMessageDialog(null, 
+	                        "No student chosen", 
+	                        "Student Report", 
+	                        JOptionPane.ERROR_MESSAGE);
 				}
-				
+				else
+				{
+                      String message = enrollmentValidator.validateDates(startPeriod, endPeriod);
+					  if(message.equals("correct"))
+					  {
+
+							Student selStudent;
+							Course selCourse;
+							try {
+								selStudent = studentBLL.findByName(studentName);
+								selCourse = courseBLL.findByTeacherID(teacherAccount.getTeacherID());
+			                    List<Enrollment> enrol = enrollmentBLL.findByStudentId(selStudent.getStudentID());
+			                    List<Enrollment> finished_courses = new ArrayList<>();
+			                    List<Enrollment> enrolled_courses = new ArrayList<>();
+			                    for(Enrollment en : enrol)
+			                    {
+			                    	if(en.checkPeriod(startPeriod, endPeriod).equals("FINISHED"))
+			                    			finished_courses.add(en);
+			                    	if(en.checkPeriod(startPeriod, endPeriod).equals("ENROLLED"))
+			                    	        enrolled_courses.add(en);
+			                    }
+			                    
+			                    setVisible(false);
+			                    StudentReport frame = new StudentReport(selStudent,teacherAccount,finished_courses,enrolled_courses);
+								frame.setVisible(true);
+			                   
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+					  }
+					  else
+					  {
+						   JOptionPane.showMessageDialog(null, 
+			                        message, 
+			                        "Student Report", 
+			                        JOptionPane.ERROR_MESSAGE);
+					  }
+            
+				}
 			}
+			
 		});
 		btnGenerateStudentReport.setBounds(320, 340, 245, 25);
 		contentPane.add(btnGenerateStudentReport);
@@ -302,7 +396,15 @@ public class TeacherAccount extends JFrame {
 				
 				Object selectedStudent = list.getSelectedValue();
 				String studentName = (String) selectedStudent;
-				
+				if(selectedStudent == null)
+				{		
+					JOptionPane.showMessageDialog(null, 
+	                        "No student chosen", 
+	                        "Student Exam Grades", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
 				Student selStudent;
 				Course selCourse;
 				try {
@@ -323,6 +425,7 @@ public class TeacherAccount extends JFrame {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				}
 			}
 		});
 		btnViewGrades.setBounds(226, 545, 110, 25);
@@ -331,6 +434,7 @@ public class TeacherAccount extends JFrame {
 		textField_8 = new JTextField();
 		textField_8.setBounds(360, 546, 268, 22);
 		contentPane.add(textField_8);
+		textField_8.setEditable(false);
 		textField_8.setColumns(10);
 		
 		
@@ -342,32 +446,67 @@ public class TeacherAccount extends JFrame {
 		JButton btnInsertGrade = new JButton("Insert Grade");
 		btnInsertGrade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				float grade = Float.valueOf(textField_9.getText());
+				
 				int teacherID = teacherAccount.getTeacherID();
 				
 				Object selectedStudent = list.getSelectedValue();
 				String studentName = (String) selectedStudent;
 				
+				if(selectedStudent == null)
+				{		
+					JOptionPane.showMessageDialog(null, 
+	                        "No student chosen", 
+	                        "Student Report", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+				
 				Student selStudent;
 				Course selCourse;
-				try {
-					selStudent = studentBLL.findByName(studentName);
-					selCourse = courseBLL.findByTeacherID(teacherAccount.getTeacherID());
-                    Enrollment enrol = enrollmentBLL.findByCourseAndStudent(selStudent.getStudentID(), selCourse.getCourseID());
-                    int enrollmentID = enrol.getEnrollmentID();
-                   
-                    Grade newGrade = new Grade(enrollmentID,grade);
-                    gradeBLL.insert(newGrade);
-                    
-                	JOptionPane.showMessageDialog(null, 
-	                        "The student`s grade was added.", 
-	                        "Grade received", 
-	                        JOptionPane.INFORMATION_MESSAGE);
-                	textField_8.setText(textField_8.getText() + "," + grade);
-                	textField_9.setText("");
-                         
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				
+				try
+				{
+					float grade = Float.valueOf(textField_9.getText());
+					if(grade <4 || grade>10)
+					{
+						JOptionPane.showMessageDialog(null, 
+		                        "Wrong grade format", 
+		                        "Student Grade", 
+		                        JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						try {
+							selStudent = studentBLL.findByName(studentName);
+							selCourse = courseBLL.findByTeacherID(teacherAccount.getTeacherID());
+		                    Enrollment enrol = enrollmentBLL.findByCourseAndStudent(selStudent.getStudentID(), selCourse.getCourseID());
+		                    int enrollmentID = enrol.getEnrollmentID();
+		                   
+		                    Grade newGrade = new Grade(enrollmentID,grade);
+		                    gradeBLL.insert(newGrade);
+		                    
+		                	JOptionPane.showMessageDialog(null, 
+			                        "The student`s grade was added.", 
+			                        "Grade received", 
+			                        JOptionPane.INFORMATION_MESSAGE);
+		                	textField_8.setText(textField_8.getText() + "," + grade);
+		                	textField_9.setText("");
+		                         
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					
+					
+				}
+				catch(java.lang.NumberFormatException exp )
+				{
+					JOptionPane.showMessageDialog(null, 
+	                        "Wrong grade format", 
+	                        "Student Grade", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}	
 				}
 			}
 		});

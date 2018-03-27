@@ -153,14 +153,25 @@ public class StudentEnrollments extends JFrame {
 				Object selectedCourse = list.getSelectedValue();
 				String courseName = (String) selectedCourse;
 				
-				try {
-					Course toRemoveCourse = courseBLL.findByName(courseName);
-					Enrollment enroll= enrollmentBLL.findByCourseAndStudent(studentAccount.getStudentID(), toRemoveCourse.getCourseID());
-					enrollmentBLL.delete(enroll.getEnrollmentID());
-					
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if(selectedCourse == null)
+				{
+					try {
+						Course toRemoveCourse = courseBLL.findByName(courseName);
+						Enrollment enroll= enrollmentBLL.findByCourseAndStudent(studentAccount.getStudentID(), toRemoveCourse.getCourseID());
+						enrollmentBLL.delete(enroll.getEnrollmentID());
+						
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, 
+	                        "No co", 
+	                        "Remove Enrollment", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}			
+			
 			}
 		});
 		btnRemoveEnrollment.setBounds(36, 292, 170, 36);

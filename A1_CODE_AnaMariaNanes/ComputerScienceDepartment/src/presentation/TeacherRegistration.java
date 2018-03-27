@@ -1,8 +1,5 @@
 package presentation;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -10,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.classes.TeacherBLL;
 import business.interfaces.ITeacherBLL;
+import business.validators.TeacherValidator;
 import persistance.entities.Teacher;
 
 import javax.swing.JLabel;
@@ -89,16 +87,30 @@ public class TeacherRegistration extends JFrame {
 				String password = String.valueOf(pass);
 							
 				Teacher newTeacher = new Teacher(name,username,password);
-				teacherBLL.insert(newTeacher);
+				TeacherValidator teacherValidator = new TeacherValidator();
+				String message = teacherValidator.validateTeacher(newTeacher);
+				if(message.equals("correct"))
+				{
+					teacherBLL.insert(newTeacher);
+					
+					JOptionPane.showMessageDialog(null, 
+	                        "Account created.", 
+	                        "Registration Status", 
+	                        JOptionPane.INFORMATION_MESSAGE);
+					
+					HomePage frame = new HomePage();
+					frame.setVisible(true);
+					setVisible(false);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, 
+	                         message, 
+	                        "Registration Status", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
 				
-				JOptionPane.showMessageDialog(null, 
-                        "Account created.", 
-                        "Registration Status", 
-                        JOptionPane.INFORMATION_MESSAGE);
-				
-				HomePage frame = new HomePage();
-				frame.setVisible(true);
-				setVisible(false);
+
 			}
 		});
 		btnRegister.setBounds(70, 189, 97, 25);

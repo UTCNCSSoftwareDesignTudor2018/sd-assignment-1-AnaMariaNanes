@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.classes.StudentBLL;
 import business.interfaces.IStudentBLL;
+import business.validators.StudentValidator;
 import persistance.entities.Student;
 
 import javax.swing.JLabel;
@@ -130,16 +131,28 @@ public class StudentRegistration extends JFrame {
 			    String password = String.valueOf(pass);
 				
 				Student newStudent = new Student(name,cardID,cnp,address,groupID,username,password);
-				studentBLL.insert(newStudent);
+				StudentValidator stValidator = new StudentValidator();
+				String message = stValidator.validateStudent(newStudent);
+				if(message.equals("correct")) {
+					studentBLL.insert(newStudent);
+					JOptionPane.showMessageDialog(null, 
+	                        "Account created.", 
+	                        "Registration Status", 
+	                        JOptionPane.INFORMATION_MESSAGE);
+					
+					HomePage frame = new HomePage();
+					frame.setVisible(true);
+					setVisible(false);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, 
+	                         message, 
+	                        "Registration Status", 
+	                        JOptionPane.ERROR_MESSAGE);
+				}
 				
-				JOptionPane.showMessageDialog(null, 
-                        "Account created.", 
-                        "Registration Status", 
-                        JOptionPane.INFORMATION_MESSAGE);
 				
-				HomePage frame = new HomePage();
-				frame.setVisible(true);
-				setVisible(false);
 			}
 		});
 		btnRegister.setBounds(80, 307, 97, 25);

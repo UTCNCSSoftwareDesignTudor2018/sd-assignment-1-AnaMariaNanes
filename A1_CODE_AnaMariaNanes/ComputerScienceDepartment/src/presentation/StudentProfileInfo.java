@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.classes.StudentBLL;
 import business.interfaces.IStudentBLL;
+import business.validators.StudentValidator;
 import persistance.entities.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -140,12 +141,24 @@ public class StudentProfileInfo extends JFrame {
 			    String password = String.valueOf(pass);
 			    
 			    Student updatedStudent = new Student(studentID,name,cardID,cnp,address,groupID,username,password);
+			    StudentValidator studentValidator = new StudentValidator();
+			    String  message = studentValidator.validateUpdateStudent(updatedStudent);
+			    if(message.equals("correct"))
+			    {
 			    studentBLL.update(updatedStudent);
 			    
 			    JOptionPane.showMessageDialog(null, 
                         "Student account information updated.", 
                         "Update status.", 
                         JOptionPane.INFORMATION_MESSAGE);
+			    }
+			    else
+			    {
+			    	JOptionPane.showMessageDialog(null, 
+	                        message, 
+	                        "Update status.", 
+	                        JOptionPane.ERROR_MESSAGE);
+			    }
 			}
 		});
 		btnUpdate.setBounds(62, 307, 97, 25);
