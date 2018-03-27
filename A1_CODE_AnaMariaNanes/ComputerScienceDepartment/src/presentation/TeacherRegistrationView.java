@@ -103,6 +103,17 @@ public class TeacherRegistrationView extends JFrame {
 		});
 		btnRegister.setBounds(70, 189, 97, 25);
 		contentPane.add(btnRegister);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				HomePage frame = new HomePage();
+				frame.setVisible(true);
+			}
+		});
+		btnBack.setBounds(298, 215, 97, 25);
+		contentPane.add(btnBack);
 	}
 
 }

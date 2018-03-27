@@ -82,7 +82,7 @@ public class TeacherDao implements ITeacherDao{
 			toReturn = new Teacher(teacherID,name,username,password);
 			
 		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING,"ClientDAO:findByUsername " + e.getMessage());
+			LOGGER.log(Level.WARNING,"TeacherDAO:findByUsername " + e.getMessage());
 		} finally {
 			ConnectionFactory.close(rs);
 			ConnectionFactory.close(findStatement);

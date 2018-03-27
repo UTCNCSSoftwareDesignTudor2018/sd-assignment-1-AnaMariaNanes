@@ -22,6 +22,7 @@ public class CourseDao implements ICourseDao {
 	+ " VALUES (?,?,?,?)";
 	private final static String updateStatementString = "UPDATE courses SET name=?, teacherID=?, credits=?, room=? " + " WHERE courseID=?";
 	private final static String findStatementString = "SELECT * FROM courses where courseID = ?";
+	private final static String findStatementStringByTeacherId = "SELECT * FROM courses where teacherID = ?";
 	private final static String findStatementStringByName = "SELECT * FROM courses where name = ?";
 	private final static String findAllStatementString = "SELECT * FROM courses";
 	private final static String deleteStatementString = "DELETE FROM courses where courseID = ?";
@@ -83,6 +84,39 @@ public class CourseDao implements ICourseDao {
 			
 		} catch (SQLException e) { 
 			LOGGER.log(Level.WARNING,"CourseDAO:findByName " + e.getMessage());
+			return null;
+		} finally {
+			ConnectionFactory.close(rs);
+			ConnectionFactory.close(findStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return toReturn;
+	}
+	
+    // find course by teacherID
+	public Course findByTeacherID(int teacherID) {
+		Course toReturn = null; 
+
+		Connection dbConnection = ConnectionFactory.getConnection();
+		PreparedStatement findStatement = null;
+		
+		ResultSet rs = null;
+		
+		try {
+			findStatement = dbConnection.prepareStatement(findStatementStringByTeacherId);
+			findStatement.setInt(1, teacherID);
+			rs = findStatement.executeQuery();
+			rs.next();
+
+			String name = rs.getString("name");
+			int courseID = rs.getInt("courseID");
+			int credits = rs.getInt("credits");
+			String room = rs.getString("room");
+			
+			toReturn = new Course(courseID,name,teacherID,credits,room);
+			
+		} catch (SQLException e) { 
+			LOGGER.log(Level.WARNING,"CourseDAO:findByTeacherId " + e.getMessage());
 			return null;
 		} finally {
 			ConnectionFactory.close(rs);
@@ -204,7 +238,5 @@ public class CourseDao implements ICourseDao {
 			  ConnectionFactory.close(dbConnection);
 		    }
 		}
-
-
 
 }

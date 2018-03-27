@@ -73,6 +73,7 @@ public class HomePage extends JFrame {
 		textField_1.setBounds(152, 130, 116, 22);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
+	
 		
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
@@ -86,6 +87,7 @@ public class HomePage extends JFrame {
 					Student student = studentBLL.findByUsername(username);
 					if(student.getPassword().equals(password))
 					{
+
 						StudentAccountView frame = new StudentAccountView(student);
 						frame.setVisible(true);
 						setVisible(false);
@@ -120,8 +122,7 @@ public class HomePage extends JFrame {
 						JOptionPane.showMessageDialog(null, 
 		                        "No account exists for provided username.", 
 		                        "Log in error", 
-		                        JOptionPane.ERROR_MESSAGE);
-					}
+		                        JOptionPane.ERROR_MESSAGE);}
 				}
 		
 			}

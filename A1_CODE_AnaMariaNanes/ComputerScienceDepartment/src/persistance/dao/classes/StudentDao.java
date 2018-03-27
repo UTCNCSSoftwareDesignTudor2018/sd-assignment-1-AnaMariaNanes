@@ -26,6 +26,7 @@ public class StudentDao implements IStudentDao
 	private final static String findStatementString = "SELECT * FROM students where studentID = ?";
 	private final static String findStatementStringByUsername = "SELECT * FROM students where username = ?";
 	private final static String findStatementStringAccount = "SELECT * FROM students where username = ? AND password = ?";
+	private final static String findStatementStringByName = "SELECT * FROM students where name = ?";
 	private final static String findAllStatementString = "SELECT * FROM students";
 	private final static String deleteStatementString = "DELETE FROM students where studentID = ?";
 
@@ -56,7 +57,7 @@ public class StudentDao implements IStudentDao
 			toReturn = new Student(studentID,name,cardID,cnp,address,groupID,username,password);
 			
 		} catch (SQLException e) { 
-			LOGGER.log(Level.WARNING,"ClientDAO:findById " + e.getMessage());
+			LOGGER.log(Level.WARNING,"StudentDAO:findById " + e.getMessage());
 		} finally {
 			ConnectionFactory.close(rs);
 			ConnectionFactory.close(findStatement);
@@ -92,7 +93,7 @@ public class StudentDao implements IStudentDao
 				toReturn = new Student(studentID,name,cardID,cnp,address,groupID,username,password);
 				
 			} catch (SQLException e) {
-				LOGGER.log(Level.WARNING,"ClientDAO:findByUsername " + e.getMessage());
+				
 			} finally {
 				ConnectionFactory.close(rs);
 				ConnectionFactory.close(findStatement);
@@ -128,7 +129,42 @@ public class StudentDao implements IStudentDao
 				toReturn = new Student(studentID,name,cardID,cnp,address,groupID,username,password);
 				
 			} catch (SQLException e) {
-				LOGGER.log(Level.WARNING,"ClientDAO:findByAccount " + e.getMessage());
+				LOGGER.log(Level.WARNING,"StudentDAO:findByAccount " + e.getMessage());
+			} finally {
+				ConnectionFactory.close(rs);
+				ConnectionFactory.close(findStatement);
+				ConnectionFactory.close(dbConnection);
+			}
+			return toReturn;
+		}
+		
+		//find student by name
+		public Student findByName(String name) {
+			Student toReturn = null; 
+
+			Connection dbConnection = ConnectionFactory.getConnection();
+			PreparedStatement findStatement = null;
+			
+			ResultSet rs = null;
+			
+			try {
+				findStatement = dbConnection.prepareStatement(findStatementStringByName);
+				findStatement.setString(1, name);
+				rs = findStatement.executeQuery();
+				rs.next();
+
+                int studentID = rs.getInt("studentID");
+				String cardID = rs.getString("cardID");
+				String cnp = rs.getString("cnp");
+				String address = rs.getString("address");
+				String groupID = rs.getString("groupID");
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				
+				toReturn = new Student(studentID,name,cardID,cnp,address,groupID,username,password);
+				
+			} catch (SQLException e) { 
+				LOGGER.log(Level.WARNING,"StudentDAO:findByName " + e.getMessage());
 			} finally {
 				ConnectionFactory.close(rs);
 				ConnectionFactory.close(findStatement);

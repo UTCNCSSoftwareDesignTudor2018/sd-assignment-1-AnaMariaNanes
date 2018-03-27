@@ -13,6 +13,8 @@ import business.interfaces.*;
 import persistance.entities.*;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextPane;
@@ -58,15 +60,15 @@ public class StudentEnrollmentsView extends JFrame {
 		contentPane.add(lblCourseDetails);
 		
 		JLabel lblCourseGrades = new JLabel("Course Grades:");
-		lblCourseGrades.setBounds(312, 171, 94, 16);
+		lblCourseGrades.setBounds(312, 212, 94, 16);
 		contentPane.add(lblCourseGrades);
 		
 		JTextPane textPane = new JTextPane();
-		textPane.setBounds(312, 43, 232, 110);
+		textPane.setBounds(312, 42, 240, 157);
 		contentPane.add(textPane);
 		
 		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setBounds(312, 200, 227, 93);
+		textPane_1.setBounds(312, 241, 240, 107);
 		contentPane.add(textPane_1);
 		
 		
@@ -123,7 +125,14 @@ public class StudentEnrollmentsView extends JFrame {
 						}
 						
 						String line2_1 = "Course:   " + courseName + "\n";
-						String line2_2 = "Grades:   " + theGrades + "\n";
+						String line2_2;
+						if(!theGrades.equals("")) {
+						line2_2 = "Grades:   " + theGrades + "\n";
+						}
+						else
+						{
+							line2_2 = "Grades:   " + "No grades yet." + "\n";
+						}
 						String line2_3 = "Final Exam Grade:   " + examGrade +  "\n";
 						String content2 = line2_1 + line2_2 + line2_3;
 						textPane_1.setEditable(false);
@@ -154,8 +163,30 @@ public class StudentEnrollmentsView extends JFrame {
 				}
 			}
 		});
-		btnRemoveEnrollment.setBounds(36, 333, 170, 36);
+		btnRemoveEnrollment.setBounds(36, 292, 170, 36);
 		contentPane.add(btnRemoveEnrollment);
+		
+		JButton btnNewEnrollment = new JButton("New Enrollment");
+		btnNewEnrollment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StudentNewEnrollmentView frame = new StudentNewEnrollmentView(studentAccount);
+				frame.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnNewEnrollment.setBounds(312, 361, 170, 36);
+		contentPane.add(btnNewEnrollment);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				StudentAccountView frame = new StudentAccountView(studentAccount);
+				frame.setVisible(true);
+			}
+		});
+		btnBack.setBounds(489, 404, 97, 25);
+		contentPane.add(btnBack);
 		
 	}
 }

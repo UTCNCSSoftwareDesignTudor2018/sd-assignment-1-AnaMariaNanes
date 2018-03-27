@@ -3,6 +3,7 @@ package business.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.interfaces.ICourseBLL;
 import business.interfaces.IStudentBLL;
 import persistance.dao.classes.*;
 import persistance.dao.interfaces.*;
@@ -51,11 +52,34 @@ public class StudentBLL implements IStudentBLL {
 		}
 		return student;
 	}
+	 
+	// find by name
+	public Student findByName(String name) throws Exception {
+		Student student = studentDao.findByName(name);
+		if (student == null) {
+			throw new Exception("The student with name = " + name + " was not found!");
+		}
+		return student;
+	}
 	
 	// get all the students	
 	public List<Student> findAll()
 	{
 		return studentDao.findAll();
+	}
+	
+	// find all the students enrolled in a course
+	public List<Student> findEnrolledStudents(int teacherID) {
+		List<Student> allStudents = new ArrayList<Student>();
+		Course theCourse = courseDao.findByTeacherID(teacherID);
+		int courseID = theCourse.getCourseID();
+		List<Enrollment> allEnrollments = enrollmentDao.findByCourseId(courseID);
+		for(Enrollment e : allEnrollments)
+		{
+			Student oneStud = studentDao.findById(e.getStudentID());
+			allStudents.add(oneStud);
+		}	
+		return allStudents;
 	}
 	
 	// insert student	
@@ -90,4 +114,5 @@ public class StudentBLL implements IStudentBLL {
 		
 		return allCourses;
 	}
+
 }

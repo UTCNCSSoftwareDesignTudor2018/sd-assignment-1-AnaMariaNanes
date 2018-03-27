@@ -6,6 +6,7 @@ import business.interfaces.ICourseBLL;
 import persistance.dao.classes.CourseDao;
 import persistance.dao.interfaces.ICourseDao;
 import persistance.entities.Course;
+import persistance.entities.Student;
 
 public class CourseBLL implements ICourseBLL{
 	
@@ -31,6 +32,15 @@ public class CourseBLL implements ICourseBLL{
 		Course course = courseDao.findByName(name);
 		if (course == null) { 
 			throw new Exception("The course with name = " + name + " was not found!");
+		}
+		return course;
+	}
+	
+	// find by teacherID
+	public Course findByTeacherID(int teacherID) throws Exception{
+		Course course = courseDao.findByTeacherID(teacherID);
+		if (course == null) { 
+			throw new Exception("The course with teacherID = " + teacherID + " was not found!");
 		}
 		return course;
 	}
@@ -61,4 +71,5 @@ public class CourseBLL implements ICourseBLL{
 		courseDao.delete(courseID);
 	}
 
+	
 }

@@ -150,6 +150,16 @@ public class StudentProfileInfoView extends JFrame {
 		});
 		btnUpdate.setBounds(62, 307, 97, 25);
 		contentPane.add(btnUpdate);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				StudentAccountView frame = new StudentAccountView(studentAccount);
+				frame.setVisible(true);
+			}
+		});
+		btnBack.setBounds(469, 394, 97, 25);
+		contentPane.add(btnBack);
 	}
-
 }

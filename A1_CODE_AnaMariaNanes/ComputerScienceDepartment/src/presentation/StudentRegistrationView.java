@@ -144,6 +144,17 @@ public class StudentRegistrationView extends JFrame {
 		});
 		btnRegister.setBounds(80, 307, 97, 25);
 		contentPane.add(btnRegister);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				HomePage frame = new HomePage();
+				frame.setVisible(true);
+			}
+		});
+		btnBack.setBounds(408, 353, 97, 25);
+		contentPane.add(btnBack);
 	}
 
 }

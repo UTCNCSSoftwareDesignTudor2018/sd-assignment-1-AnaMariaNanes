@@ -68,8 +68,19 @@ public class StudentAccountView extends JFrame {
 				frame.setVisible(true);
 			}
 		});
-		btnDeleteAccount.setBounds(417, 376, 135, 25);
+		btnDeleteAccount.setBounds(440, 329, 135, 25);
 		contentPane.add(btnDeleteAccount);
+		
+		JButton btnLogOut = new JButton("Log out");
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				HomePage frame = new HomePage();
+				frame.setVisible(true);
+			}
+		});
+		btnLogOut.setBounds(473, 398, 97, 25);
+		contentPane.add(btnLogOut);
 	}
 
 }

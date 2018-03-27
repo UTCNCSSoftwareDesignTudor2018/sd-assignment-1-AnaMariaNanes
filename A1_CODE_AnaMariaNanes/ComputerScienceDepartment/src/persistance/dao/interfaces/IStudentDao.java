@@ -9,6 +9,7 @@ public interface IStudentDao {
 	public Student findById(int studentID);
 	public Student findByUsername(String username) ;
 	public Student findByAccount(String username, String password) ;
+	public Student findByName(String name);
 	public List<Student> findAll();
 	public int insert(Student student);
 	public void update(Student student);
