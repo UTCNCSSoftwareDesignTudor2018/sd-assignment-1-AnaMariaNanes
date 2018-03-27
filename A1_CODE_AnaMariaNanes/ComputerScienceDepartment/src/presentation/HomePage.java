@@ -88,7 +88,7 @@ public class HomePage extends JFrame {
 					if(student.getPassword().equals(password))
 					{
 
-						StudentAccountView frame = new StudentAccountView(student);
+						StudentAccount frame = new StudentAccount(student);
 						frame.setVisible(true);
 						setVisible(false);
 					}
@@ -106,7 +106,7 @@ public class HomePage extends JFrame {
 						Teacher teacher = teacherBLL.findByUsername(username);
 						if(teacher.getPassword().equals(password))
 						{
-						TeacherAccountView frame = new TeacherAccountView(teacher);
+						TeacherAccount frame = new TeacherAccount(teacher);
 						frame.setVisible(true);
 						setVisible(false);
 						}
@@ -133,7 +133,7 @@ public class HomePage extends JFrame {
 		JButton btnCreateStudentAccount = new JButton("Create Student Account");
 		btnCreateStudentAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentRegistrationView frame = new StudentRegistrationView();
+				StudentRegistration frame = new StudentRegistration();
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -144,7 +144,7 @@ public class HomePage extends JFrame {
 		JButton btnCreateTeacherAccount = new JButton("Create Teacher Account");
 		btnCreateTeacherAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TeacherRegistrationView frame = new TeacherRegistrationView();
+				TeacherRegistration frame = new TeacherRegistration();
 				frame.setVisible(true);
 				setVisible(false);
 			}

@@ -19,7 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StudentNewEnrollmentView extends JFrame {
+public class StudentNewEnrollment extends JFrame {
 
 	private JPanel contentPane;
 	private Student studentAccount;
@@ -31,7 +31,7 @@ public class StudentNewEnrollmentView extends JFrame {
 	private JTextField textField_1;
 
 
-	public StudentNewEnrollmentView(Student studentAccount) {
+	public StudentNewEnrollment(Student studentAccount) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 500, 650, 500);
 		setTitle("Student: " + studentAccount.getName() + "  New Enrollment.");
@@ -121,7 +121,7 @@ public class StudentNewEnrollmentView extends JFrame {
 	                        JOptionPane.INFORMATION_MESSAGE);
 					
 					setVisible(false);
-					StudentEnrollmentsView frame = new StudentEnrollmentsView(studentAccount);
+					StudentEnrollments frame = new StudentEnrollments(studentAccount);
 					frame.setVisible(true);
 					
 				} catch (Exception e1) {

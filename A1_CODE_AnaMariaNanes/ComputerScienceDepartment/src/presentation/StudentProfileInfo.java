@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StudentProfileInfoView extends JFrame {
+public class StudentProfileInfo extends JFrame {
 
 	private JPanel contentPane;
 	private Student studentAccount;
@@ -32,7 +32,7 @@ public class StudentProfileInfoView extends JFrame {
 	
 	private IStudentBLL studentBLL;
 
-	public StudentProfileInfoView(Student studentAccount) {
+	public StudentProfileInfo(Student studentAccount) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 500, 650, 500);
 		setTitle("Student Profile Information");
@@ -155,7 +155,7 @@ public class StudentProfileInfoView extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				StudentAccountView frame = new StudentAccountView(studentAccount);
+				StudentAccount frame = new StudentAccount(studentAccount);
 				frame.setVisible(true);
 			}
 		});

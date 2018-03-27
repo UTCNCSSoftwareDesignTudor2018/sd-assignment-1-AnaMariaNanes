@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-public class TeacherAccountView extends JFrame {
+public class TeacherAccount extends JFrame {
 
 	private JPanel contentPane;
 	private Teacher teacherAccount;
@@ -41,7 +41,7 @@ public class TeacherAccountView extends JFrame {
 	private JTextField textField_8;
 	private JTextField textField_9;
 
-	public TeacherAccountView(Teacher teacherAccount) {
+	public TeacherAccount(Teacher teacherAccount) {
 		
 		this.teacherAccount =  teacherAccount;
 		this.teacherBLL = new TeacherBLL();

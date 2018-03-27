@@ -22,7 +22,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StudentEnrollmentsView extends JFrame {
+public class StudentEnrollments extends JFrame {
 
 	private JPanel contentPane;
 	private Student studentAccount;
@@ -34,7 +34,7 @@ public class StudentEnrollmentsView extends JFrame {
 	private JList list;
 
 
-	public StudentEnrollmentsView(Student studentAccount ) {
+	public StudentEnrollments(Student studentAccount ) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 500, 650, 500);
 		setTitle("Student Account: " + studentAccount.getName() + " COURSES");
@@ -169,7 +169,7 @@ public class StudentEnrollmentsView extends JFrame {
 		JButton btnNewEnrollment = new JButton("New Enrollment");
 		btnNewEnrollment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentNewEnrollmentView frame = new StudentNewEnrollmentView(studentAccount);
+				StudentNewEnrollment frame = new StudentNewEnrollment(studentAccount);
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -181,7 +181,7 @@ public class StudentEnrollmentsView extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				StudentAccountView frame = new StudentAccountView(studentAccount);
+				StudentAccount frame = new StudentAccount(studentAccount);
 				frame.setVisible(true);
 			}
 		});

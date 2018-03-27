@@ -16,7 +16,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StudentRegistrationView extends JFrame {
+public class StudentRegistration extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -30,7 +30,7 @@ public class StudentRegistrationView extends JFrame {
 	
 	private IStudentBLL studentBLL;
 
-	public StudentRegistrationView() {
+	public StudentRegistration() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 400, 565, 455);
 		setTitle("Student Registration");

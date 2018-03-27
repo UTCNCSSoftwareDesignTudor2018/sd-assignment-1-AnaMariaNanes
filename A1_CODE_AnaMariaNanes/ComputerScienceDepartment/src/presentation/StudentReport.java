@@ -135,7 +135,7 @@ public class StudentReport extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				TeacherAccountView frame = new TeacherAccountView(teacher);
+				TeacherAccount frame = new TeacherAccount(teacher);
 				frame.setVisible(true);
 			}
 		});

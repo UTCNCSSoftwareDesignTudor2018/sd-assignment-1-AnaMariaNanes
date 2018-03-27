@@ -12,13 +12,13 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StudentAccountView extends JFrame {
+public class StudentAccount extends JFrame {
 
 	private JPanel contentPane;
 	private Student studentAccount;
 	private IStudentBLL studentBLL;
 
-	public StudentAccountView(Student studentAccount) {
+	public StudentAccount(Student studentAccount) {
 		
 		this.studentAccount = studentAccount;
 		this.studentBLL = new StudentBLL();
@@ -34,7 +34,7 @@ public class StudentAccountView extends JFrame {
 		JButton btnViewStudentProfile = new JButton("View Student Profile");
 		btnViewStudentProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentProfileInfoView frame = new StudentProfileInfoView(studentAccount);
+				StudentProfileInfo frame = new StudentProfileInfo(studentAccount);
 				frame.setVisible(true);
 				setVisible(false);
 			}
@@ -45,7 +45,7 @@ public class StudentAccountView extends JFrame {
 		JButton btnEnrollments = new JButton("Enrollments");
 		btnEnrollments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StudentEnrollmentsView frame = new StudentEnrollmentsView(studentAccount);
+				StudentEnrollments frame = new StudentEnrollments(studentAccount);
 				frame.setVisible(true);
 				setVisible(false);
 			}
