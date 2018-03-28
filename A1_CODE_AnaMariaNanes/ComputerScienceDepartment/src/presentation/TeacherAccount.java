@@ -154,7 +154,7 @@ public class TeacherAccount extends JFrame {
 				
 			}
 		});
-		btnDeleteAccount.setBounds(35, 414, 128, 26);
+		btnDeleteAccount.setBounds(35, 614, 128, 26);
 		contentPane.add(btnDeleteAccount);
 		
 		JButton btnLogOut = new JButton("Log out");
@@ -165,7 +165,7 @@ public class TeacherAccount extends JFrame {
 				frame.setVisible(true);
 			}
 		});
-		btnLogOut.setBounds(35, 376, 128, 25);
+		btnLogOut.setBounds(35, 576, 128, 25);
 		contentPane.add(btnLogOut);
 		
 		
@@ -234,7 +234,7 @@ public class TeacherAccount extends JFrame {
 		contentPane.add(btnAddExamGrade);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(320, 24, 116, 22);
+		textField_4.setBounds(320, 24, 245, 22);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
